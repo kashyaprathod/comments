@@ -55,9 +55,19 @@ function App() {
     setComments(newComments);
   };
 
+  const editComment = (content, id) => {
+    const updatedComments = [...comments];
+    updatedComments.forEach((data) => {
+      if(data.id == id){
+        data.content = content;
+      }
+    })
+    setComments(updatedComments);
+  }
+
   return (
     <div className="bg-slate-200 min-h-screen pt-3 flex flex-col justify-center items-center">
-      <CommentList comments={comments} deleteComment={deleteComment}/>
+      <CommentList comments={comments} deleteComment={deleteComment} editComment={editComment}/>
       <AddComment addComments={addComments}/>
     </div>
   );
