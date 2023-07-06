@@ -22,7 +22,7 @@ const AddComment = ({addComments, user}) => {
     }
   return (
     <div className='bg-white w-2/4 p-3 mb-2 rounded-xl flex flex-row h-full'>
-       <div><img src={user.image.png} alt="p" width={30} /></div>
+       <div><img src="" alt="p" width={30} /></div>
    
        <textarea className="mx-3 h-full min-h-100 w-5/6 resize-none rounded-7 border-2 rounded-md border-blue-gray-300 px-3 py-2 font-sans text-sm focus:outline-none focus:shadow-outline focus:border-blue-300 "
        value={comment}

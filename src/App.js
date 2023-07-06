@@ -23,7 +23,6 @@ function App() {
   // const [comments, setComments] = useLocalStorage("comments", null);
 
   const[comments, setComments] = useState(store);
-  const [currentUser, setCurrentUser] = useState();
 
   const getData = async () => {
     try {
