@@ -23,12 +23,14 @@ function App() {
   // const [comments, setComments] = useLocalStorage("comments", null);
 
   const[comments, setComments] = useState(store);
+  const [currentUser, setCurrentUser] = useState();
 
   const getData = async () => {
     try {
       const res = await fetch("./data.json");
       const data = await res.json();
       setComments(data.comments);
+      setCurrentUser(data.currentUser);
     } catch (error) {
       console.log(error);
     }
@@ -68,7 +70,7 @@ function App() {
   return (
     <div className="bg-slate-200 min-h-screen pt-3 flex flex-col justify-center items-center">
       <CommentList comments={comments} deleteComment={deleteComment} editComment={editComment}/>
-      <AddComment addComments={addComments}/>
+      <AddComment addComments={addComments} user = {currentUser}/>
     </div>
   );
 }
