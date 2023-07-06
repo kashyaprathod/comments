@@ -43,10 +43,22 @@ function App() {
     localStorage.setItem("comments", JSON.stringify(comments));
   }, [comments]);
 
+  const addComments = (newComment) => {
+    const updatedComments = [...comments, newComment];
+    setComments(updatedComments);
+  };
+
+  const deleteComment = (id) => {
+    const newComments = comments.filter((comment) => {
+      return comment.id !== id;
+    });
+    setComments(newComments);
+  };
+
   return (
     <div className="bg-slate-200 min-h-screen pt-3 flex flex-col justify-center items-center">
-      <CommentList comments={comments}/>
-      <AddComment/>
+      <CommentList comments={comments} deleteComment={deleteComment}/>
+      <AddComment addComments={addComments}/>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import replyIcon from '../assets/icons/icon-reply.svg';
 import deleteIcon from '../assets/icons/icon-delete.svg';
 import editIcon from '../assets/icons/icon-edit.svg';
+import IconBtn from './IconBtn';
 
 const CommentHeader = ({id, user, createdAt, deleteComment}) => {
   return (

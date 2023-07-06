@@ -15,7 +15,6 @@ const AddComment = ({addComments}) => {
                 },
                 username: "juliusomo",
             },
-            
             replies:[],
         };
         setComment("");
