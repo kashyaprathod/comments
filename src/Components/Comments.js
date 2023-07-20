@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CommentHeader from "./CommentHeader";
 import CommentList from "./CommentList";
+import ReplyContainer from "./ReplyContainer";
 
 const Comments = ({
   id,
@@ -10,13 +11,21 @@ const Comments = ({
   content,
   replies,
   editComment,
+  updateReplies
 }) => {
   const [commentData, setCommentData] = useState(content);
   const [editing, setEditing] = useState(false);
+  const [replying, setReplying] = useState(false);
 
   const updateComment = () => {
     editComment(commentData, id);
     setEditing(false);
+  };
+
+  const addReply = (newReply) => {
+    const newReplies = [...replies, newReply];
+    updateReplies(newReplies, id);
+    setReplying(false);
   };
 
   return (
@@ -24,6 +33,8 @@ const Comments = ({
       <div className="bg-white w-2/4 p-3 mb-2 rounded-xl flex flex-col">
         <div className="">
           <CommentHeader
+            replying={replying}
+            setReplying = {setReplying}
             user={user}
             createdAt={createdAt}
             id={id}
@@ -51,6 +62,7 @@ const Comments = ({
           )}
         </div>
       </div>
+      {replying && <ReplyContainer addReply = {addReply}/>}
       {replies?.length > 0 && <CommentList comments={replies} />}
     </>
   );

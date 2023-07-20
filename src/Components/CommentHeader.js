@@ -5,18 +5,15 @@ import editIcon from "../assets/icons/icon-edit.svg";
 import IconBtn from "./IconBtn";
 import { useLocalStorage } from "usehooks-ts";
 
-const CommentHeader = ({ id, user, createdAt, deleteComment, setEditing }) => {
-  const [replying, setReplying] = useState(false);
+const CommentHeader = ({ id, user, createdAt, deleteComment, setEditing, replying, setReplying }) => {
   const [replyText, setReplyText] = useLocalStorage("replyText", "");
   const [replies, setReplies] = useState([]);
 
-  const respond = () => {
-    setReplying(true);
+  const showReplyComment = () => {
+    setReplying(!replying);
   };
 
-  const handleReplyChange = (event) => {
-    setReplyText(event.target.value);
-  };
+  
 
   const handleReplySubmit = () => {
     if (replyText.trim() !== "") {
@@ -62,40 +59,6 @@ const CommentHeader = ({ id, user, createdAt, deleteComment, setEditing }) => {
     setReplies(updatedReplies);
   };
 
-  const renderReplies = (replies) => {
-    return (
-      <div className="ml-6 mt-2 ">
-        {replies.map((reply) => (
-          <div key={reply.id} className="ml-6 mt-2">
-            <div className="flex flex-row items-center">
-              <img src="./images/image-juliusomo.png" alt="-" width={30} />
-              <span className="font-medium mr-2 ml-2">juliusomo</span>
-              <span className="font-normal text-slate-400">
-                {timeSinceCreated(reply.createdAt)}
-              </span>
-            </div>
-            <div className="bg-gray-100 px-4 py-2 rounded-lg">
-              <p>{reply.content}</p>
-              <div className="flex justify-end mt-2">
-                {user.username === reply.user && (
-                  <button
-                    className="text-rose-700 font-medium"
-                    onClick={() => handleDeleteReply(reply.id)}
-                  >
-                    Delete
-                  </button>
-                )}
-              </div>
-              {reply.replies &&
-                reply.replies.length > 0 &&
-                renderReplies(reply.replies)}
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div className="flex flex-col">
       <div className="flex flex-row justify-between">
@@ -123,31 +86,13 @@ const CommentHeader = ({ id, user, createdAt, deleteComment, setEditing }) => {
               </button>
             </div>
           ) : (
-            <button className="flex flex-row items-center" onClick={respond}>
+            <button className="flex flex-row items-center" onClick={showReplyComment}>
               <img src={replyIcon} alt="" className="mr-2" />
               <span className="text-violet-900 font-medium">Reply</span>
             </button>
           )}
         </div>
       </div>
-      {replying && (
-        <div className="flex flex-row items-center mt-2">
-          <input
-            type="text"
-            value={replyText}
-            onChange={handleReplyChange}
-            placeholder="Write a reply..."
-            className="border border-gray-300 rounded-lg px-2 py-1 w-full h-14 mr-2 "
-          />
-          <button
-            className="bg-violet-700 text-white px-5 py-2 rounded-lg"
-            onClick={handleReplySubmit}
-          >
-            Reply
-          </button>
-        </div>
-      )}
-      {replies.length > 0 && renderReplies(replies)}
     </div>
   );
 };
