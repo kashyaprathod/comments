@@ -10,7 +10,7 @@ const ReplyContainer = ({addReply}) => {
             id: Math.floor(Math.random() * 100) + 5,
             content: reply,
             createdAt: "1 Month Ago",
-            replyingTo: "someone",
+            replyingTo: "maxblagun",
             user: {
                 image: {
                 png: "./images/image-juliusomo.png",
