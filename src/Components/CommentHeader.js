@@ -5,7 +5,7 @@ import editIcon from "../assets/icons/icon-edit.svg";
 import IconBtn from "./IconBtn";
 import { useLocalStorage } from "usehooks-ts";
 
-const CommentHeader = ({ id, user, createdAt, deleteComment, setEditing, replying, setReplying }) => {
+const CommentHeader = ({ id, user, createdAt, deleteComment, editing, setEditing, replying, setReplying }) => {
   const [replyText, setReplyText] = useLocalStorage("replyText", "");
   const [replies, setReplies] = useState([]);
 
@@ -79,7 +79,7 @@ const CommentHeader = ({ id, user, createdAt, deleteComment, setEditing, replyin
               </button>
               <button
                 className="flex flex-row items-center"
-                onClick={() => setEditing(true)}
+                onClick={() => setEditing(!editing)}
               >
                 <img src={editIcon} alt="" className="mr-2" />
                 <span className="text-violet-900 font-medium">Edit</span>

@@ -7,7 +7,7 @@ const CommentList = ({comments, deleteComment, editComment, updateReplies}) => {
     <div className = "flex flex-col justify-center items-center">
       {
         comments.map((comment) => {
-          return <Comments key={comment.id} {...comment} deleteComment={deleteComment} editComment={editComment} updateReplies={updateReplies}/>
+          return <Comments key={comment.id} {...comment} comment={comment} deleteComment={deleteComment} editComment={editComment} updateReplies={updateReplies}/>
         })
       }
     </div>

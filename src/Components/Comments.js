@@ -7,6 +7,7 @@ const Comments = ({
   id,
   user,
   createdAt,
+  comment,
   deleteComment,
   content,
   replies,
@@ -39,6 +40,7 @@ const Comments = ({
             createdAt={createdAt}
             id={id}
             deleteComment={deleteComment}
+            editing = {editing}
             setEditing={setEditing}
           />
         </div>
