@@ -8,18 +8,29 @@ const Comments = ({
   user,
   createdAt,
   comment,
-  deleteComment,
+  replyingTo,
+  commentDelete,
+  delComment,
   content,
   replies,
   editComment,
+  commentUpdate,
   updateReplies
 }) => {
   const [commentData, setCommentData] = useState(content);
   const [editing, setEditing] = useState(false);
   const [replying, setReplying] = useState(false);
 
-  const updateComment = () => {
-    editComment(commentData, id);
+  const updateText = () => {
+    if(replyingTo){
+      editComment(id, "reply", commentData)
+    }else{
+      editComment(id, "comment", commentData);
+    }
+
+
+
+    // editComment(commentData, id);
     setEditing(false);
   };
 
@@ -28,6 +39,11 @@ const Comments = ({
     updateReplies(newReplies, id);
     setReplying(false);
   };
+
+  const deleteComment = (commentId, type) => {
+    // const finalType = (type !== "undefined") ? type : "comment";
+    delComment(id, type);
+  }
 
   return (
     <>
@@ -39,13 +55,21 @@ const Comments = ({
             user={user}
             createdAt={createdAt}
             id={id}
+            comment={comment}
+            replyingTo={replyingTo}
             deleteComment={deleteComment}
             editing = {editing}
             setEditing={setEditing}
           />
         </div>
-        <div className="w-11/12 pt-3 pb-3">
+        <div className="min-w-full pt-3 pb-3">
           {!editing ? (
+            replyingTo ? 
+            <div>
+              <span className="font-bold text-violet-500">{"@" + replyingTo + " "}</span> 
+              <span className="text-slate-700">{content}</span>
+            </div>
+            : 
             <span className="text-slate-700">{content}</span>
           ) : (
             <textarea
@@ -57,7 +81,7 @@ const Comments = ({
           {editing && (
             <button
               className="text-white font-medium bg-violet-900 p-2 rounded-md"
-              onClick={updateComment}
+              onClick={updateText}
             >
               UPDATE
             </button>
@@ -65,7 +89,7 @@ const Comments = ({
         </div>
       </div>
       {replying && <ReplyContainer addReply = {addReply}/>}
-      {replies?.length > 0 && <CommentList comments={replies} />}
+      {replies?.length > 0 && <CommentList comment={comment} comments={replies} commentDelete={commentDelete} commentUpdate={commentUpdate}/>}
     </>
   );
 };

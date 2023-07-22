@@ -7,9 +7,10 @@ const ReplyContainer = ({addReply}) => {
     const clickHandler = () => {
         if (reply === "" || reply === " ") return;
         const newReply = {
-            d: Math.floor(Math.random() * 100) + 5,
+            id: Math.floor(Math.random() * 100) + 5,
             content: reply,
             createdAt: "1 Month Ago",
+            replyingTo: "someone",
             user: {
                 image: {
                 png: "./images/image-juliusomo.png",

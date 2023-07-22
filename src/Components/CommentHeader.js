@@ -5,13 +5,23 @@ import editIcon from "../assets/icons/icon-edit.svg";
 import IconBtn from "./IconBtn";
 import { useLocalStorage } from "usehooks-ts";
 
-const CommentHeader = ({ id, user, createdAt, deleteComment, editing, setEditing, replying, setReplying }) => {
+const CommentHeader = ({ id, user, comment, createdAt, deleteReply, replyingTo, deleteComment, editing, setEditing, replying, setReplying }) => {
   const [replyText, setReplyText] = useLocalStorage("replyText", "");
   const [replies, setReplies] = useState([]);
 
   const showReplyComment = () => {
+    console.log("asdfasd")
     setReplying(!replying);
   };
+
+  const showDeleteComment = () => {
+    if(replyingTo){
+      console.log(comment.id);
+      deleteComment(id, "reply");
+    }else{
+      deleteComment(id, "comment");
+    }
+  }
 
   
 
@@ -54,10 +64,10 @@ const CommentHeader = ({ id, user, createdAt, deleteComment, editing, setEditing
     }
   };
 
-  const handleDeleteReply = (replyId) => {
-    const updatedReplies = replies.filter((reply) => reply.id !== replyId);
-    setReplies(updatedReplies);
-  };
+  // const handleDeleteReply = (replyId) => {
+  //   const updatedReplies = replies.filter((reply) => reply.id !== replyId);
+  //   setReplies(updatedReplies);
+  // };
 
   return (
     <div className="flex flex-col">
@@ -72,7 +82,7 @@ const CommentHeader = ({ id, user, createdAt, deleteComment, editing, setEditing
             <div className="flex flex-row items-center space-x-4">
               <button
                 className="flex flex-row items-center"
-                onClick={() => deleteComment(id)}
+                onClick={showDeleteComment}
               >
                 <img src={deleteIcon} alt="" className="mr-2" />
                 <span className="text-rose-700 font-medium">Delete</span>

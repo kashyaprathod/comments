@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocalStorage } from 'usehooks-ts';
 import CommentList from "./Components/CommentList";
 import AddComment from "./Components/AddComment";
+import { type } from "@testing-library/user-event/dist/type";
 
 
 
@@ -48,20 +49,48 @@ function App() {
     setComments(updatedComments);
   };
 
-  const deleteComment = (id) => {
-    const newComments = comments.filter((comment) => {
-      return comment.id !== id;
-    });
-    setComments(newComments);
+  const commentDelete = (id, type, parentComment) => {
+    let updatedComments = [...comments];
+    let updatedReplies = [];
+    if(type === "comment"){
+      updatedComments = updatedComments.filter((comment) => {
+        return comment.id !== id;
+      })
+    }else{
+      updatedComments.forEach((comment) => {
+        if(comment.id === parentComment){
+          comment.replies = comment.replies.filter((reply) => reply.id !== id);
+        }
+      })
+    }
+
+    setComments(updatedComments);
+    // const newComments = comments.filter((comment) => {
+    //   return comment.id !== id;
+    // });
+    // setComments(newComments);
   };
 
-  const editComment = (content, id) => {
-    const updatedComments = [...comments];
-    updatedComments.forEach((data) => {
-      if(data.id == id){
-        data.content = content;
-      }
-    })
+  const commentUpdate = (id, type, newContent, parentComment) => {
+    let updatedComments = [...comments];
+    if(type === "comment"){
+      updatedComments.forEach((data) => {
+        if(data.id == id){
+          data.content = newContent;
+        }
+      })
+    }else{
+      updatedComments.forEach((comment) => {
+        if(comment.id == parentComment){
+          comment.replies.forEach((reply) => {
+            if(reply.id == id){
+              reply.content = newContent;
+            }
+          })
+        }
+      })
+    }
+    
     setComments(updatedComments);
   }
 
@@ -76,8 +105,8 @@ function App() {
   }
 
   return (
-    <div className="bg-slate-200 min-h-screen pt-3 flex flex-col justify-center items-center">
-      <CommentList comments={comments} deleteComment={deleteComment} editComment={editComment} updateReplies={updateReplies}/>
+    <div className="bg-slate-200 min-h-screen pt-3 flex flex-col justify-center items-center w-full">
+      <CommentList comments={comments} commentDelete={commentDelete} commentUpdate={commentUpdate} updateReplies={updateReplies}/>
       <AddComment addComments={addComments}/>
     </div>
   );
